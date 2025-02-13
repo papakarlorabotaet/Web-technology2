@@ -21,7 +21,7 @@ const WeatherWidget = () => {
 
       // Выполняем запрос к API погоды
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ed3563057dc4011ec8ffe7134e2d6646&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=e****************&units=metric` //после публикации на гитхабе, удалил открытый ключ
       );
       // Если запрос успешен, сохраняем температуру
       setWeather(response.data.main.temp);
