@@ -1,3 +1,4 @@
+// components/WeatherWidget.tsx
 import React, { useState, useEffect } from 'react';
 import { TextInput, View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import axios from 'axios';
@@ -14,7 +15,10 @@ const WeatherWidget = () => {
   const fetchWeather = async (city: string) => {
     setLoading(true); // Включаем индикатор загрузки
     setError(null); // Сбрасываем возможные предыдущие ошибки
+    setWeather(null); // Очищаем предыдущую температуру перед новым запросом
     try {
+      await new Promise((resolve) => setTimeout(resolve, 2500)); // Исскуственная задержка 2.5с
+
       // Выполняем запрос к API погоды
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ed3563057dc4011ec8ffe7134e2d6646&units=metric`
@@ -26,7 +30,9 @@ const WeatherWidget = () => {
       setError('Ошибка при получении данных');
       console.error(err); // Логируем ошибку в консоль
     } finally {
+        
       setLoading(false); // Останавливаем индикатор загрузки
+      
     }
   };
 
@@ -54,7 +60,7 @@ const WeatherWidget = () => {
       />
       
       {/* Индикатор загрузки, показывается во время запроса */}
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
+      {loading && <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />}
       
       {/* Если произошла ошибка, показываем сообщение об ошибке */}
       {error && <Text style={styles.error}>{error}</Text>}
@@ -90,6 +96,9 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginTop: 20,
+  },
+  loader: {
+    marginTop: 20, // Добавляем отступ, чтобы индикатор не перекрывал текст
   },
 });
 
